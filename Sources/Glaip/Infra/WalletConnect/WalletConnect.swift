@@ -105,6 +105,7 @@ extension WalletConnect: ClientDelegate {
 
   func client(_ client: Client, didDisconnect session: Session) {
     UserDefaults.standard.removeObject(forKey: sessionKey)
+      self.wurl = nil
     delegate.didDisconnect()
   }
 
