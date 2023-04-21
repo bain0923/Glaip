@@ -27,11 +27,10 @@ final class WalletConnect {
     self.delegate = delegate
   }
 
-  func connect(title: String, description: String, icons: [URL] = []) -> String {
+    func connect(title: String, description: String, icons: [URL], clientURL: URL) -> String {
     // gnosis wc bridge: https://safe-walletconnect.gnosis.io/
     // test bridge with latest protocol version: https://bridge.walletconnect.org
     let bridgeURL = URL(string: "https://safe-walletconnect.safe.global/")!
-    let clientURL = URL(string: "https://safe.gnosis.io")!
 
     let wcUrl =  WCURL(topic: UUID().uuidString,
                        bridgeURL: bridgeURL,

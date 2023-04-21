@@ -28,13 +28,17 @@ public struct WalletDetails {
 public final class WalletLinkService: WalletService {
   private let title: String
   private let description: String
+  private let icons: [URL]
+  private let clientURL: URL
 
   private var walletConnect: WalletConnect!
   private var onDidConnect: ((WalletDetails) -> Void)?
 
-  public init(title: String, description: String) {
+  public init(title: String, description: String, icons: [URL] = [], clientURL: URL = URL(string: "https://safe.gnosis.io")!) {
     self.title = title
     self.description = description
+    self.icons = icons
+    self.clientURL = clientURL
 
     setWalletConnect()
   }
@@ -64,7 +68,7 @@ public final class WalletLinkService: WalletService {
   }
 
   public func sign(wallet: WalletType, message: String, completion: @escaping (Result<String, Error>) -> Void) {
-    openAppToConnect(wallet: wallet, getDeepLink(wallet: .MetaMask), delay: 3)
+    openAppToConnect(wallet: wallet, getDeepLink(wallet: wallet), delay: 1)
 
     walletConnect.sign(message: message, completion: completion)
   }
@@ -83,7 +87,13 @@ public final class WalletLinkService: WalletService {
   }
 
   private func getDeepLink(wallet: WalletType) -> String {
-    let connectionUrl = walletConnect.connect(title: title, description: description)
+    let connectionUrl: String
+    if let wcUrl = walletConnect.wurl {
+      connectionUrl = wcUrl.absoluteString
+    } else {
+      connectionUrl = walletConnect.connect(title: title, description: description, icons: icons, clientURL: clientURL)
+    }
+     
     let encodeURL = connectionUrl.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
     let end = encodeURL.replacingOccurrences(of: "=", with: "%3D").replacingOccurrences(of: "&", with: "%26")
 
