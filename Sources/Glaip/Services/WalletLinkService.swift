@@ -68,13 +68,13 @@ public final class WalletLinkService: WalletService {
   }
 
   public func sign(wallet: WalletType, message: String, completion: @escaping (Result<String, Error>) -> Void) {
-    openAppToConnect(wallet: wallet, getDeepLink(wallet: wallet), delay: 1)
+    openAppToConnect(wallet: wallet, getDeepLink(wallet: wallet), delay: 3)
 
     walletConnect.sign(message: message, completion: completion)
   }
     
     public func sendTransaction(wallet: WalletType, transaction: Client.Transaction, completion: @escaping (Result<String, Error>) -> Void) {
-      openAppToConnect(wallet: wallet, getDeepLink(wallet: wallet), delay: 1)
+      openAppToConnect(wallet: wallet, getDeepLink(wallet: wallet), delay: 3)
 
       walletConnect.sendTransaction(transaction: transaction, completion: completion)
     }
