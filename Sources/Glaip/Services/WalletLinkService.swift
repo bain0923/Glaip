@@ -34,7 +34,7 @@ public final class WalletLinkService: WalletService {
   private var walletConnect: WalletConnect!
   private var onDidConnect: ((WalletDetails) -> Void)?
 
-  public init(title: String, description: String, icons: [URL] = [], clientURL: URL = URL(string: "https://safe.gnosis.io")!) {
+  public init(title: String, description: String, icons: [URL], clientURL: URL) {
     self.title = title
     self.description = description
     self.icons = icons

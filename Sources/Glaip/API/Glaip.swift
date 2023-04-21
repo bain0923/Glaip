@@ -18,11 +18,11 @@ public final class Glaip: ObservableObject {
 
   @Published public var userState: UserState = .unregistered
 
-  public init(title: String, description: String, supportedWallets: [WalletType]) {
+  public init(title: String, description: String, supportedWallets: [WalletType], icons: [URL] = [], clientURL: URL = URL(string: "https://safe.gnosis.io")!) {
     self.title = title
     self.description = description
     self.supportedWallets = supportedWallets
-    self.walletConnect = WalletLinkService(title: title, description: description)
+    self.walletConnect = WalletLinkService(title: title, description: description, icons: icons, clientURL: clientURL)
   }
 
   public func loginUser(type: WalletType, completion: @escaping (Result<User, Error>) -> Void) {
@@ -49,8 +49,7 @@ public final class Glaip: ObservableObject {
   }
 
   private func walletLogin(wallet: WalletType, completion: @escaping (Result<User, Error>) -> Void) {
-    let service = WalletLinkService(title: title, description: description)
-    service.connect(wallet: wallet, completion: { result in
+      walletConnect.connect(wallet: wallet, completion: { result in
 
       switch result {
       case let .success(walletDetails):
