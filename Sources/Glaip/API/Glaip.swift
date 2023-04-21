@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WalletConnectSwift
 
 public final class Glaip: ObservableObject {
   private let walletConnect: WalletLinkService
@@ -42,6 +43,10 @@ public final class Glaip: ObservableObject {
     
     public func personalSign(wallet: WalletType, message: String, completion: @escaping (Result<String, Error>) -> Void) {
         walletConnect.sign(wallet: wallet, message: message, completion: completion)
+    }
+    
+    public func sendTransaction(wallet: WalletType, transaction: Client.Transaction, completion: @escaping (Result<String, Error>) -> Void) {
+        walletConnect.sendTransaction(wallet: wallet, transaction: transaction, completion: completion)
     }
 
   public func logout() {

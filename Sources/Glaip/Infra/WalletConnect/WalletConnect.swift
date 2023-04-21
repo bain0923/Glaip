@@ -7,6 +7,7 @@
 
 import Foundation
 import WalletConnectSwift
+import SwiftUI
 
 protocol WalletConnectDelegate: AnyObject {
   func failedToConnect()
@@ -72,6 +73,23 @@ final class WalletConnect {
       }
     }
   }
+    
+    func sendTransaction(transaction: Client.Transaction, completion: @escaping (Result<String, Error>) -> Void) {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+          guard let accounts = self.session?.walletInfo?.accounts, let _ = accounts.first else { return }
+        do {
+          try self.client.eth_sendTransaction(
+            url: self.session.url,
+            transaction: transaction
+          ) { response in
+            guard let responseHash = try? response.result(as: String.self) else { return }
+            completion(.success(responseHash))
+          }
+        } catch {
+          completion(.failure(error))
+        }
+      }
+    }
 
   // https://developer.apple.com/documentation/security/1399291-secrandomcopybytes
   private func randomKey() throws -> String {

@@ -72,6 +72,12 @@ public final class WalletLinkService: WalletService {
 
     walletConnect.sign(message: message, completion: completion)
   }
+    
+    public func sendTransaction(wallet: WalletType, transaction: Client.Transaction, completion: @escaping (Result<String, Error>) -> Void) {
+      openAppToConnect(wallet: wallet, getDeepLink(wallet: wallet), delay: 1)
+
+      walletConnect.sendTransaction(transaction: transaction, completion: completion)
+    }
 
   private func setWalletConnect() {
     walletConnect = WalletConnect(delegate: self)
