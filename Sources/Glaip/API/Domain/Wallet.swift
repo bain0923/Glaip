@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Wallet: Equatable {
+public struct Wallet: Equatable, Codable {
   public let type: WalletType
   public let address: String
   public let chainId: String

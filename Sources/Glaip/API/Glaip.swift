@@ -13,16 +13,14 @@ public final class Glaip: ObservableObject {
 
   public let title: String
   public let description: String
-  public let supportedWallets: [WalletType]
 
   public var currentWallet: WalletType?
 
   @Published public var userState: UserState = .unregistered
 
-  public init(title: String, description: String, supportedWallets: [WalletType], icons: [URL] = [], clientURL: URL = URL(string: "https://safe.gnosis.io")!) {
+  public init(title: String, description: String, icons: [URL] = [], clientURL: URL = URL(string: "https://safe.gnosis.io")!) {
     self.title = title
     self.description = description
-    self.supportedWallets = supportedWallets
     self.walletConnect = WalletLinkService(title: title, description: description, icons: icons, clientURL: clientURL)
   }
 
